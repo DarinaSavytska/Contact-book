@@ -1,10 +1,11 @@
 import React from "react";
 import { User } from "../../react-app-env";
-// import './UsersList.scss';
+import './UserList.scss';
 
 type Props = {
   users: User[],
   selectedUserId: (userId: number) => void,
+  onDelete: (userId: number) => void,
 };
 
 type State = {
@@ -55,19 +56,20 @@ export class UsersList extends React.Component<Props, State> {
   };
 
   render() {
-    const { users, selectedUserId } = this.props;
+    const { users, selectedUserId, onDelete } = this.props;
     const { titleSearch, sortBy } = this.state;
     const usersSorted = this.getSortUser(users);
     const usersBySearch = this.getSearchUser(usersSorted);
 
     return (
       <div className="UsersList">
-        <h2>Users:</h2>
+        <h2 className="UsersList__title">Users:</h2>
 
         <input
           type="text"
           name="sortByText"
           id="sortByText"
+          className="UsersList__search-sort"
           placeholder="Search user"
           value={titleSearch}
           onChange={this.handleInputChange}
@@ -76,6 +78,7 @@ export class UsersList extends React.Component<Props, State> {
         <select
           name="sortBySelected"
           id="sortBySelected"
+          className="UsersList__search-sort"
           value={sortBy}
           onChange={this.handleSelectedChange}
         >
@@ -96,19 +99,31 @@ export class UsersList extends React.Component<Props, State> {
           <ul className="UsersList__list">
             {usersBySearch.map(user => (
               user.username &&
-                <li
-                  key={user.id}
-                  className="UsersList__item"
-                >
-                  {user.name}
+              <li
+                key={user.id}
+                className="UsersList__item"
+              >
+                {user.name}
 
+                <div className="UsersList__item-button">
                   <button
                     type="button"
+                    className="button"
                     onClick={() => selectedUserId(user.id)}
                   >
                     More
                   </button>
-                </li>
+
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => onDelete(user.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+
+              </li>
             ))}
           </ul>
         </div>

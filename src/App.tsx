@@ -1,9 +1,11 @@
 import React from "react";
+import './App.scss';
+import './styles/general.scss';
 import { CurrentUser } from "./components/CurrentUser/CurrentUser";
-// import './App/scss';
-import { getAllUsers, getUserById } from "./api/api";
+import { getAllUsers } from "./api/api";
 import { User } from "./react-app-env";
 import { UsersList } from "./components/UsersList/UsersList";
+import { userInfo } from "os";
 
 interface State {
   selectedUserId: number,
@@ -32,6 +34,10 @@ class App extends React.Component<{}, State> {
     this.setState({ selectedUserId: userId })
   };
 
+  deleteUser = (userId: number) => {
+    this.setState({ users: this.state.users.filter(user => user.id !== userId) })
+  };
+
   render() {
     const { selectedUserId, users } = this.state;
 
@@ -41,6 +47,7 @@ class App extends React.Component<{}, State> {
           <UsersList
             users={users}
             selectedUserId={this.selectUser}
+            onDelete={this.deleteUser}
           />
         </div>
 
@@ -51,7 +58,10 @@ class App extends React.Component<{}, State> {
                 userId={selectedUserId}
                 onClear={this.unselectUser}
               />
-            ) : 'No user selected'}
+              ) : <p className="App__content-container-none">
+                    No user selected
+                  </p>
+            }
           </div>
         </div>
       </div>

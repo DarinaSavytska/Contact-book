@@ -1,6 +1,6 @@
 /// <reference types="react-scripts" />
 
-type UserAddres = {
+export type UserAddres = {
   id: number,
   userId: number,
   street: string,

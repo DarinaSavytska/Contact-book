@@ -1,5 +1,5 @@
 import React from 'react';
-// import './CurrentUser.scss';
+import './CurrentUser.scss';
 import { getUserById } from '../../api/api';
 import { User } from '../../react-app-env';
 
@@ -52,21 +52,23 @@ export class CurrentUser extends React.Component<Props, State> {
         <div className="CurrentUser">
           <h2 className="CurrentUser__title">
             <span>
-              {`Selected User: ${user?.id}`}
+              {`Selected User ID: ${user?.id}`}
             </span>
           </h2>
 
           <h3 className="CurrentUser__name">
-            {user?.name}
+            {`Name: ${user?.name}`}
           </h3>
 
           <p className="CurrentUser__email">
-            {user?.email}
+            {`E-mail: ${user?.email}`}
+            <br />
+            {`Number: ${user?.phone}`}
           </p>
 
-          <p className="CurrentUser__phone">
-            {user?.phone}
-          </p>
+          {/* <p className="CurrentUser__phone">
+            {`Number: ${user?.phone}`}
+          </p> */}
 
           <button
             type="button"
