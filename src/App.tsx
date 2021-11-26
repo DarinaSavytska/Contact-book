@@ -1,7 +1,7 @@
 import React from "react";
 import './App.scss';
 import './styles/general.scss';
-import { CurrentUser } from "./components/CurrentUser/CurrentUser";
+import CurrentUser from "./components/CurrentUser/CurrentUser";
 import { getAllUsers } from "./api/api";
 import { User } from "./react-app-env";
 import { UsersList } from "./components/UsersList/UsersList";
@@ -9,8 +9,8 @@ import Modal from "./components/Modal/ModalDelete";
 import { ModalForm } from "./components/Modal/ModalForm";
 
 interface State {
-  selectedUserId: number,
-  deleteUserId: number,
+  selectedUser: User | null,
+  deleteUserId: string,
   users: User[],
   modaleVisibleDelete: boolean,
   modaleVisibleForm: boolean,
@@ -19,8 +19,8 @@ interface State {
 
 class App extends React.Component<{}, State> {
   state: State = {
-    selectedUserId: 0,
-    deleteUserId: 0,
+    selectedUser: null,
+    deleteUserId: '',
     users: [],
     modaleVisibleDelete: false,
     modaleVisibleForm: false,
@@ -28,19 +28,19 @@ class App extends React.Component<{}, State> {
   }
 
   async componentDidMount() {
-    const users = await getAllUsers();
-
-    this.setState({ users });
+    getAllUsers().then(response => {
+      this.setState({ users: response })
+    });
   }
 
   unselectUser = () => {
     this.setState({
-      selectedUserId: 0,
+      selectedUser: null,
     })
   };
 
-  selectUser = (userId: number) => {
-    this.setState({ selectedUserId: userId })
+  selectUser = (user: User) => {
+    this.setState({ selectedUser: user })
   };
 
   deleteUser = () => {
@@ -52,11 +52,11 @@ class App extends React.Component<{}, State> {
     })
   };
 
-  setModalVisibleDelete = (userId: number) => {
+  setModalVisibleDelete = (userId: string) => {
     this.setState({
       modaleVisibleDelete: true,
       deleteUserId: userId,
-      selectedUserId: this.state.deleteUserId ? 0 : this.state.selectedUserId,
+      selectedUser: this.state.deleteUserId ? null : this.state.selectedUser,
     });
   };
 
@@ -80,8 +80,8 @@ class App extends React.Component<{}, State> {
 
   addUser = (person: User) => {
     if (!this.state.users.some(user => user.id === person.id)) {
-      this.setState((prevUsers => {
-        const { users } = prevUsers;
+      this.setState((prevState => {
+        const { users } = prevState;
 
         return {
           users: [...users, person],
@@ -91,7 +91,7 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
-    const { selectedUserId, users, modaleVisibleForm, modaleVisibleDelete } = this.state;
+    const { selectedUser: selectedUserId, users, modaleVisibleForm, modaleVisibleDelete } = this.state;
 
     return (
       <div className="App">
@@ -108,8 +108,8 @@ class App extends React.Component<{}, State> {
           <div className="App__content-container">
             {selectedUserId ? (
               <CurrentUser
-                userId={selectedUserId}
                 onClear={this.unselectUser}
+                selectedUser={this.state.selectedUser}
               />
             ) : <p className="App__content-container-none">
               No user selected
@@ -126,6 +126,8 @@ class App extends React.Component<{}, State> {
           {modaleVisibleForm &&
             <ModalForm
               setModalUnvisible={this.setModalUnvisibleForm}
+              addUser={this.addUser}
+              users={this.state.users}
             />
           }
         </div>

@@ -1,14 +1,18 @@
 import React from "react";
+import { User } from "../../react-app-env";
 import './Modal.scss';
 
 type Props = {
   setModalUnvisible: () => void,
+  addUser: (user: User) => void,
+  users: User[],
 };
 
 type State = {
   userName: string,
   userId: string,
 };
+
 
 export class ModalForm extends React.Component<Props, State> {
   state: State = {
@@ -28,9 +32,25 @@ export class ModalForm extends React.Component<Props, State> {
     });
   };
 
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.setModalUnvisible();
+
+    const { userName, userId } = this.state;
+
+    const newUser = {
+      name: userName,
+      id: userId,
+    };
+
+    this.props.addUser(newUser);
+  };
+
   render() {
     const { setModalUnvisible } = this.props;
     const { userName, userId } = this.state;
+
+    console.log(this.props.users.length);
 
     return (
       <div
@@ -43,10 +63,7 @@ export class ModalForm extends React.Component<Props, State> {
         >
           <form
             className="modal__form"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setModalUnvisible();
-            }}
+            onSubmit={this.handleSubmit}
           >
             Name*:
             {' '}
@@ -70,7 +87,6 @@ export class ModalForm extends React.Component<Props, State> {
 
             <button
               className="button"
-              type="submit"
             >
               Add User
             </button>

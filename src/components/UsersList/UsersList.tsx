@@ -4,8 +4,8 @@ import './UserList.scss';
 
 type Props = {
   users: User[],
-  selectedUserId: (userId: number) => void,
-  modaleVisibleDelete: (userId: number) => void,
+  selectedUserId: (user: User) => void,
+  modaleVisibleDelete: (userId: string) => void,
   setModalVisibleForm: () => void,
 };
 
@@ -112,7 +112,6 @@ export class UsersList extends React.Component<Props, State> {
         <div className="UsersList__list-container">
           <ul className="UsersList__list">
             {usersBySearch.map(user => (
-              user.username &&
               <li
                 key={user.id}
                 className="UsersList__item"
@@ -123,7 +122,7 @@ export class UsersList extends React.Component<Props, State> {
                   <button
                     type="button"
                     className="button"
-                    onClick={() => selectedUserId(user.id)}
+                    onClick={() => selectedUserId(user)}
                   >
                     More
                   </button>
@@ -136,7 +135,6 @@ export class UsersList extends React.Component<Props, State> {
                     Delete
                   </button>
                 </div>
-
               </li>
             ))}
           </ul>
