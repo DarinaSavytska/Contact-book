@@ -5,13 +5,15 @@ import { CurrentUser } from "./components/CurrentUser/CurrentUser";
 import { getAllUsers } from "./api/api";
 import { User } from "./react-app-env";
 import { UsersList } from "./components/UsersList/UsersList";
-import Modal from "./components/Modal/Modal";
+import Modal from "./components/Modal/ModalDelete";
+import { ModalForm } from "./components/Modal/ModalForm";
 
 interface State {
   selectedUserId: number,
   deleteUserId: number,
   users: User[],
-  modaleVisible: boolean,
+  modaleVisibleDelete: boolean,
+  modaleVisibleForm: boolean,
   removeUser: boolean,
 }
 
@@ -20,7 +22,8 @@ class App extends React.Component<{}, State> {
     selectedUserId: 0,
     deleteUserId: 0,
     users: [],
-    modaleVisible: false,
+    modaleVisibleDelete: false,
+    modaleVisibleForm: false,
     removeUser: false,
   }
 
@@ -43,23 +46,35 @@ class App extends React.Component<{}, State> {
   deleteUser = () => {
     this.setState((prevState) => {
       return {
-        modaleVisible: false,
+        modaleVisibleDelete: false,
         users: prevState.users.filter(user => user.id !== prevState.deleteUserId),
       };
     })
   };
 
-  setModalVisible = (userId: number) => {
+  setModalVisibleDelete = (userId: number) => {
     this.setState({
-      modaleVisible: true,
+      modaleVisibleDelete: true,
       deleteUserId: userId,
       selectedUserId: this.state.deleteUserId ? 0 : this.state.selectedUserId,
     });
   };
 
-  setModalUnvisible = () => {
+  setModalUnvisibleDelete = () => {
     this.setState({
-      modaleVisible: false,
+      modaleVisibleDelete: false,
+    });
+  };
+
+  setModalVisibleForm = () => {
+    this.setState({
+      modaleVisibleForm: true,
+    });
+  };
+
+  setModalUnvisibleForm = () => {
+    this.setState({
+      modaleVisibleForm: false,
     });
   };
 
@@ -76,7 +91,7 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
-    const { selectedUserId, users, modaleVisible } = this.state;
+    const { selectedUserId, users, modaleVisibleForm, modaleVisibleDelete } = this.state;
 
     return (
       <div className="App">
@@ -84,7 +99,8 @@ class App extends React.Component<{}, State> {
           <UsersList
             users={users}
             selectedUserId={this.selectUser}
-            setModalVisible={this.setModalVisible}
+            modaleVisibleDelete={this.setModalVisibleDelete}
+            setModalVisibleForm={this.setModalVisibleForm}
           />
         </div>
 
@@ -101,13 +117,17 @@ class App extends React.Component<{}, State> {
             }
           </div>
 
-          {modaleVisible &&
+          {modaleVisibleDelete &&
             <Modal
-              visible={modaleVisible}
-              setModalUnvisible={this.setModalUnvisible}
-              addUser={this.addUser}
+              modaleVisibleDelete={this.setModalUnvisibleDelete}
               deleteUser={this.deleteUser}
             />}
+
+          {modaleVisibleForm &&
+            <ModalForm
+              setModalUnvisible={this.setModalUnvisibleForm}
+            />
+          }
         </div>
       </div>
     );

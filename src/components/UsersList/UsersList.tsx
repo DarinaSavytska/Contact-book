@@ -5,7 +5,8 @@ import './UserList.scss';
 type Props = {
   users: User[],
   selectedUserId: (userId: number) => void,
-  setModalVisible: (userId: number) => void,
+  modaleVisibleDelete: (userId: number) => void,
+  setModalVisibleForm: () => void,
 };
 
 type State = {
@@ -56,7 +57,12 @@ export class UsersList extends React.Component<Props, State> {
   };
 
   render() {
-    const { users, selectedUserId, setModalVisible } = this.props;
+    const {
+      users,
+      selectedUserId,
+      modaleVisibleDelete,
+      setModalVisibleForm
+    } = this.props;
     const { titleSearch, sortBy } = this.state;
     const usersSorted = this.getSortUser(users);
     const usersBySearch = this.getSearchUser(usersSorted);
@@ -83,7 +89,7 @@ export class UsersList extends React.Component<Props, State> {
           onChange={this.handleSelectedChange}
         >
           <option value="reset" disabled>
-            Reset sort
+            Sort By:
           </option>
 
           <option value="Sort A-Z">
@@ -98,7 +104,7 @@ export class UsersList extends React.Component<Props, State> {
         <button
           type="button"
           className="button UsersList__search-sort"
-          onClick={() => setModalVisible}
+          onClick={setModalVisibleForm}
         >
           Add User
         </button>
@@ -125,7 +131,7 @@ export class UsersList extends React.Component<Props, State> {
                   <button
                     type="button"
                     className="button"
-                    onClick={() => setModalVisible(user.id)}
+                    onClick={() => modaleVisibleDelete(user.id)}
                   >
                     Delete
                   </button>
