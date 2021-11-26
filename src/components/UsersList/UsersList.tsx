@@ -5,7 +5,7 @@ import './UserList.scss';
 type Props = {
   users: User[],
   selectedUserId: (userId: number) => void,
-  onDelete: (userId: number) => void,
+  setModalVisible: (userId: number) => void,
 };
 
 type State = {
@@ -56,7 +56,7 @@ export class UsersList extends React.Component<Props, State> {
   };
 
   render() {
-    const { users, selectedUserId, onDelete } = this.props;
+    const { users, selectedUserId, setModalVisible } = this.props;
     const { titleSearch, sortBy } = this.state;
     const usersSorted = this.getSortUser(users);
     const usersBySearch = this.getSearchUser(usersSorted);
@@ -95,6 +95,14 @@ export class UsersList extends React.Component<Props, State> {
           </option>
         </select>
 
+        <button
+          type="button"
+          className="button UsersList__search-sort"
+          onClick={() => setModalVisible}
+        >
+          Add User
+        </button>
+
         <div className="UsersList__list-container">
           <ul className="UsersList__list">
             {usersBySearch.map(user => (
@@ -117,7 +125,7 @@ export class UsersList extends React.Component<Props, State> {
                   <button
                     type="button"
                     className="button"
-                    onClick={() => onDelete(user.id)}
+                    onClick={() => setModalVisible(user.id)}
                   >
                     Delete
                   </button>

@@ -11,6 +11,8 @@
     "@types/node": "^16.11.10",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "classname": "0.0.0",
+    "classnames": "^2.3.1",
     "gh-pages": "^3.2.3",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",

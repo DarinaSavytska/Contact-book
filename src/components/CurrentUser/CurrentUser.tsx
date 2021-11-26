@@ -57,18 +57,20 @@ export class CurrentUser extends React.Component<Props, State> {
           </h2>
 
           <h3 className="CurrentUser__name">
-            {`Name: ${user?.name}`}
+            {user?.name && `Name: ${user?.name}`}
           </h3>
 
           <p className="CurrentUser__email">
-            {`E-mail: ${user?.email}`}
+            {user?.email && `E-mail: ${user?.email}`}
             <br />
-            {`Number: ${user?.phone}`}
+            {user?.phone && `Number: ${user?.phone}`}
+            <br />
+            {user?.username && `Username: ${user?.username}`}
           </p>
 
-          {/* <p className="CurrentUser__phone">
-            {`Number: ${user?.phone}`}
-          </p> */}
+          <p className="CurrentUser__phone">
+            {user?.website && `Website: ${user?.website}`}
+          </p>
 
           <button
             type="button"

@@ -12,8 +12,9 @@ export type UserAddres = {
 export type User = {
   id: number,
   name: string,
-  username: string,
-  email: string,
-  phone: string,
-  address: UserAddres,
+  username?: string,
+  email?: string,
+  phone?: string,
+  website?: string,
+  address?: UserAddres,
 };
