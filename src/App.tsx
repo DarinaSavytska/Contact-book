@@ -91,7 +91,7 @@ class App extends React.Component<{}, State> {
   };
 
   render() {
-    const { selectedUser: selectedUserId, users, modaleVisibleForm, modaleVisibleDelete } = this.state;
+    const { selectedUser, users, modaleVisibleForm, modaleVisibleDelete } = this.state;
 
     return (
       <div className="App">
@@ -106,10 +106,10 @@ class App extends React.Component<{}, State> {
 
         <div className="App__selectedUser">
           <div className="App__content-container">
-            {selectedUserId ? (
+            {selectedUser ? (
               <CurrentUser
                 onClear={this.unselectUser}
-                selectedUser={this.state.selectedUser}
+                selectedUser={selectedUser}
               />
             ) : <p className="App__content-container-none">
               No user selected
@@ -127,7 +127,7 @@ class App extends React.Component<{}, State> {
             <ModalForm
               setModalUnvisible={this.setModalUnvisibleForm}
               addUser={this.addUser}
-              users={this.state.users}
+              users={users}
             />
           }
         </div>

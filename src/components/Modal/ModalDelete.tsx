@@ -1,5 +1,4 @@
 import React from "react";
-import './Modal.scss';
 
 type Props = {
   modaleVisibleDelete: () => void,
@@ -25,25 +24,27 @@ const Modal: React.FC<Props> = ({ modaleVisibleDelete, deleteUser }) => {
         onClick={el => el.stopPropagation()}
       >
 
-        <p>
+        <p className="modal__content-text">
           Are you sure?
         </p>
 
-        <button
-          className="button"
-          type="button"
-          onClick={buttonYes}
-        >
-          Yes
-        </button>
+        <div className="modal__content-button">
+          <button
+            className="button"
+            type="button"
+            onClick={buttonYes}
+          >
+            Yes
+          </button>
 
-        <button
-          className="button"
-          type="button"
-          onClick={buttonNo}
-        >
-          No
-        </button>
+          <button
+            className="button"
+            type="button"
+            onClick={buttonNo}
+          >
+            No
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,17 @@
+.modal {
+  &__form {
+    &-input {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  &__content {
+    &-button {
+      justify-content: center;
+      margin-top: 20px;
+    }
+  }
+}

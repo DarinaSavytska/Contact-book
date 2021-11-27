@@ -1,6 +1,6 @@
 import React from "react";
 import { User } from "../../react-app-env";
-import './Modal.scss';
+import './ModalForm.scss';
 
 type Props = {
   setModalUnvisible: () => void,
@@ -11,6 +11,10 @@ type Props = {
 type State = {
   userName: string,
   userId: string,
+  email: string,
+  number: string,
+  username: string,
+  website: string,
 };
 
 
@@ -18,6 +22,10 @@ export class ModalForm extends React.Component<Props, State> {
   state: State = {
     userName: '',
     userId: '',
+    email: '',
+    number: '',
+    username: '',
+    website: '',
   };
 
   handleInputName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,15 +40,50 @@ export class ModalForm extends React.Component<Props, State> {
     });
   };
 
+  handleInputEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      email: event.target.value,
+    });
+  };
+
+  handleInputNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      number: event.target.value,
+    });
+  };
+
+  handleInputUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      username: event.target.value,
+    });
+  };
+
+  handleInputWebsite = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      website: event.target.value,
+    });
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.props.setModalUnvisible();
 
-    const { userName, userId } = this.state;
+    const {
+      userName,
+      userId,
+      email,
+      number,
+      username,
+      website,
+    } = this.state;
 
     const newUser = {
       name: userName,
       id: userId,
+      username,
+      email,
+      phone: number,
+      website,
     };
 
     this.props.addUser(newUser);
@@ -48,9 +91,14 @@ export class ModalForm extends React.Component<Props, State> {
 
   render() {
     const { setModalUnvisible } = this.props;
-    const { userName, userId } = this.state;
-
-    console.log(this.props.users.length);
+    const {
+      userName,
+      userId,
+      email,
+      number,
+      username,
+      website,
+    } = this.state;
 
     return (
       <div
@@ -65,39 +113,79 @@ export class ModalForm extends React.Component<Props, State> {
             className="modal__form"
             onSubmit={this.handleSubmit}
           >
-            Name*:
-            {' '}
-            <input
-              type="text"
-              placeholder="name"
-              required
-              value={userName}
-              onChange={this.handleInputName}
-            />
+            <div className="modal__form-input">
+              Name*:
+              {' '}
+              <input
+                type="text"
+                placeholder="name"
+                required
+                value={userName}
+                onChange={this.handleInputName}
+              />
 
-            User ID*:
-            {' '}
-            <input
-              type="text"
-              placeholder="ID"
-              required
-              value={userId}
-              onChange={this.handleInputId}
-            />
+              User ID*:
+              {' '}
+              <input
+                type="text"
+                placeholder="ID"
+                required
+                value={userId}
+                onChange={this.handleInputId}
+              />
 
-            <button
-              className="button"
-            >
-              Add User
-            </button>
+              E-mail:
+              {' '}
+              <input
+                type="email"
+                placeholder="email@mail.com"
+                value={email}
+                onChange={this.handleInputEmail}
+              />
 
-            <button
-              className="button"
-              type="button"
-              onClick={setModalUnvisible}
-            >
-              Cancel
-            </button>
+              Number:
+              {' '}
+              <input
+                type="number"
+                placeholder="+XX-XXX-XX-XX"
+                value={number}
+                onChange={this.handleInputNumber}
+              />
+
+              Username:
+              {' '}
+              <input
+                type="text"
+                placeholder="login"
+                value={username}
+                onChange={this.handleInputUsername}
+              />
+
+              Website:
+              {' '}
+              <input
+                type="text"
+                placeholder="site"
+                value={website}
+                onChange={this.handleInputWebsite}
+              />
+            </div>
+
+            <div className="modal__content-button">
+              <button
+                className="button"
+              >
+                Add User
+              </button>
+
+              <button
+                className="button"
+                type="button"
+                onClick={setModalUnvisible}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>
